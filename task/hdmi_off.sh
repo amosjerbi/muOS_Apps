@@ -31,6 +31,7 @@ echo 1 > /tmp/hdmi_do_refresh
 
 echo "LCD enabled at 480x320"
 echo "LCD interface enabled as primary display"
-EOF
-chmod +x /task/hdmi_off.sh
-/task/hdmi_off.sh'
+
+# Additional screen switching logic
+[ "$(GET_VAR "global" "settings/hdmi/enabled")" -eq 1 ] && SCREEN_TYPE="external" || SCREEN_TYPE="internal"
+FB_SWITCH "$(GET_VAR "device" "screen/$SCREEN_TYPE/width")" "$(GET_VAR "device" "screen/$SCREEN_TYPE/height")" 32
