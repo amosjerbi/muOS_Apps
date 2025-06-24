@@ -9,8 +9,8 @@ create_muxthm() {
     local theme_name=$(basename "$theme_dir")
     local output_file="${SCRIPT_DIR}/${theme_name}.muxthm"
     
-    # Skip if not a theme directory
-    if [ ! -d "$theme_dir" ] || [[ "$theme_name" != Aurora* ]]; then
+    # Skip if not a directory
+    if [ ! -d "$theme_dir" ]; then
         return
     fi
     
@@ -46,8 +46,8 @@ create_muxthm() {
     rm -rf "$temp_dir"
 }
 
-# Process each theme directory
-for theme_dir in "${SCRIPT_DIR}"/Aurora*/; do
+# Process each directory in the script directory
+for theme_dir in "${SCRIPT_DIR}"/*/; do
     if [ -d "$theme_dir" ]; then
         create_muxthm "$theme_dir"
     fi
