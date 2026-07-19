@@ -162,11 +162,24 @@ show_stats() {
             .value.launches
         ] | @tsv
     ' $PLAYTIME_DATA_FILE | while IFS=$'\t' read -r name start_time total_time avg_time last_session launches; do
+
+        # Convert seconds to minutes (rounded to nearest int)
+
+        # Cast/round seconds to integers first 
+        total_sec=$(printf "%.0f" "$total_time" 2>/dev/null || echo 0)
+        avg_sec=$(printf "%.0f" "$avg_time" 2>/dev/null || echo 0)
+        last_sec=$(printf "%.0f" "$last_session" 2>/dev/null || echo 0)
+
+        # Safe integer arithmetic
+        total_minutes=$(( (total_sec + 30) / 60 ))
+        avg_minutes=$(( (avg_sec + 30) / 60 ))
+        last_minutes=$(( (last_sec + 30) / 60 ))
+
         echo "$name:"
-        echo "  Start Time: $(format_timestamp "$start_time")"
-        echo "  Total Time: $total_time minutes"
-        echo "  Average Time: $(printf "%.0f" "$avg_time") minutes"
-        echo "  Last Session: $last_session minutes"
+        echo "  Last Session Date: $(format_timestamp "$start_time")"
+        echo "  Total Time: $total_minutes minutes"
+        echo "  Average Time: $avg_minutes minutes"
+        echo "  Last Session: $last_minutes minutes"
         echo "  Total Sessions: $launches"
         echo
     done
@@ -370,11 +383,24 @@ show_stats() {
             .value.launches
         ] | @tsv
     ' $PLAYTIME_DATA_FILE | while IFS=$'\t' read -r name start_time total_time avg_time last_session launches; do
+
+        # Convert seconds to minutes (rounded to nearest int)
+        
+        # Cast/round seconds to integers first 
+        total_sec=$(printf "%.0f" "$total_time" 2>/dev/null || echo 0)
+        avg_sec=$(printf "%.0f" "$avg_time" 2>/dev/null || echo 0)
+        last_sec=$(printf "%.0f" "$last_session" 2>/dev/null || echo 0)
+
+        # Safe integer arithmetic
+        total_minutes=$(( (total_sec + 30) / 60 ))
+        avg_minutes=$(( (avg_sec + 30) / 60 ))
+        last_minutes=$(( (last_sec + 30) / 60 ))
+
         echo "$name:"
-        echo "  Start Time: $(format_timestamp "$start_time")"
-        echo "  Total Time: $total_time minutes"
-        echo "  Average Time: $(printf "%.0f" "$avg_time") minutes"
-        echo "  Last Session: $last_session minutes"
+        echo "  Last Session Date: $(format_timestamp "$start_time")"
+        echo "  Total Time: $total_minutes minutes"
+        echo "  Average Time: $avg_minutes minutes"
+        echo "  Last Session: $last_minutes minutes"
         echo "  Total Sessions: $launches"
         echo
     done
